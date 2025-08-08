@@ -6,7 +6,8 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Layout } from "./components/Layout";
-
+//Components
+import { Header } from "./components/Header";
 // Pages
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";

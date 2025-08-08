@@ -22,7 +22,7 @@ export function Header({ onMenuClick }: HeaderProps) {
             <Menu className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
               Dashboard
             </h1>
             <p className="text-sm text-muted-foreground">Monitor and manage your firmware deployments</p>
@@ -45,9 +45,23 @@ export function Header({ onMenuClick }: HeaderProps) {
           </Link>
 
           {user ? (
-            <div className="flex items-center space-x-2 px-3 py-1 bg-accent rounded-lg text-sm text-muted-foreground">
-              <UserCircle2 className="w-5 h-5" />
-              <span>{user.username}</span>
+            <div className="px-4 py-4 border-t border-border/50">
+              <div className="flex items-center space-x-3 px-3 py-3 rounded-xl bg-accent/30 hover:bg-accent/50 transition-colors">
+                <div className="w-9 h-9 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center shadow-md">
+                  <span className="text-primary-foreground text-sm font-semibold">
+                    {user?.username.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-foreground truncate">
+                    {user?.username}
+                  </p>
+                  <p className="text-xs text-muted-foreground capitalize flex items-center gap-1">
+                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                    {user?.role}
+                  </p>
+                </div>
+              </div>
             </div>
           ) : (
             <Link href="/login">

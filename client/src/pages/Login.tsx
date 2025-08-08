@@ -7,7 +7,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Microchip } from "lucide-react";
+
+interface registrationInterface{
+  username:string,
+  password:string,
+  confirmPassword:string,
+  role: "operator" | "admin"
+}
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,11 +27,11 @@ export default function Login() {
     password: "",
   });
 
-  const [registerForm, setRegisterForm] = useState({
+  const [registerForm, setRegisterForm] = useState<registrationInterface>({
     username: "",
     password: "",
     confirmPassword: "",
-    role: "operator",
+    role: "admin",
   });
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -191,6 +199,22 @@ export default function Login() {
                     onChange={(e) => setRegisterForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
                     required
                   />
+                </div>
+                <div>
+                  <Label htmlFor="role">Choose your role *</Label>
+                  <Select 
+                    name="role"
+                    value={registerForm.role}
+                    onValueChange={(value) => setRegisterForm(prev => ({ ...prev, role: value === "operator" ? "operator" : "admin" }))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue/>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="admin">I am an Admin</SelectItem>
+                      <SelectItem value="operator">I am an Operator</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 
                 <Button 

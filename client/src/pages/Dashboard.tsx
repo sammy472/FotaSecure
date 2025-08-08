@@ -118,7 +118,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-lg transition-shadow duration-200 border-border/50">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -136,7 +136,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-lg transition-shadow duration-200 border-border/50">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>

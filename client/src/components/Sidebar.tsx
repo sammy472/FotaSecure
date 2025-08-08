@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Link, useLocation } from "wouter";
 import { 
   Cpu, Upload, Code, Microchip, RotateCcw, 
-  History, Users, Settings, LogOut 
+  History, Users, LogOut 
 } from "lucide-react";
 
 interface SidebarProps {
@@ -76,7 +76,7 @@ export function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
               >
                 <a
                   className={cn(
-                    "flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
+                    "flex items-center px-3 py-2.5 text-sm font-medium rounded-ss-2xl rounded-ee-2xl transition-all duration-200",
                     item.current
                       ? "text-primary bg-primary/10 shadow-md border border-primary/20"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent/50"

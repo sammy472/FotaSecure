@@ -12,13 +12,22 @@ import { FileUpload } from "@/components/ui/file-upload";
 import { encryptFile, generateSHA256, arrayBufferToBase64 } from "@/lib/crypto";
 import { Lock, Upload } from "lucide-react";
 
+
+interface formDataInterface {
+    name: string,
+    version: string,
+    description: string,
+    releaseNotes: string,
+    targetDeviceGroup: string,
+    transportType: "mqtt" | "ble",
+}
 export default function FirmwareUpload() {
   const { token } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<formDataInterface>({
     name: "",
     version: "",
     description: "",
@@ -186,7 +195,7 @@ export default function FirmwareUpload() {
                 <Select 
                   name="transportType"
                   value={formData.transportType} 
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, transportType: value }))}
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, transportType: value === "mqtt" ? "mqtt" : "ble" }))}
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -224,7 +233,7 @@ export default function FirmwareUpload() {
             </div>
 
             {/* Encryption Status */}
-            <div className="bg-gray-50 rounded-lg p-4">
+            <div className="bg-gray-50 rounded-ss-2xl rounded-ee-2xl p-4">
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
                   <Lock className="w-4 h-4 text-green-600" />

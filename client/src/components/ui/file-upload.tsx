@@ -86,7 +86,7 @@ export function FileUpload({
     <div className={cn("w-full", className)}>
       <div
         className={cn(
-          "border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer",
+          "border-2 border-solid rounded-ss-2xl rounded-ee-2xl p-8 text-center transition-colors cursor-pointer",
           isDragOver && !disabled
             ? "border-primary bg-primary/5"
             : "border-gray-300 hover:border-primary/40",
@@ -132,14 +132,14 @@ export function FileUpload({
           </div>
         ) : (
           <>
-            <div className="mx-auto w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
+            <div className="mx-auto w-16 h-16 bg-gray-100 rounded-ss-2xl rounded-ee-2xl flex items-center justify-center mb-4">
               <Upload className="w-8 h-8 text-gray-400" />
             </div>
             <h4 className="text-lg font-medium text-gray-900 mb-2">Drop firmware file here</h4>
             <p className="text-sm text-gray-500 mb-4">or click to browse for {accept} files</p>
             <button
               type="button"
-              className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-ss-2xl rounded-ee-2xl text-sm font-medium transition-colors"
               disabled={disabled}
             >
               Select File
