@@ -4,7 +4,7 @@ import { WebSocketServer } from "ws";
 import { storage } from "./storage";
 import { authenticateToken, generateToken } from "./middleware/auth";
 import { encryptFile, decryptFile } from "./services/crypto";
-import { saveFile, getFile } from "./services/fileStorage";
+import { saveFile, getFile,deleteFile } from "./services/fileStorage";
 import { insertUserSchema, insertDeviceSchema, insertFirmwareSchema, insertUpdateJobSchema } from "@shared/schema";
 import bcrypt from "bcrypt";
 import multer from "multer";
@@ -208,6 +208,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Internal server error" });
     }
   });
+
+  app.delete("/api/firmware/delete/:id",authenticateToken, async (req,res)=>{
+    try {
+      //Get the storage path of the firmware from the database first 
+      const firmware = await storage.getFirmwareById(req.params.id);
+      if (!firmware) {
+        return res.status(404).json({ message: "Firmware not found in the database!!" });
+      }
+      //Extract the firmware storage path
+      const firmwareStoragePath = firmware.storagePath;
+      //Delete it from the datasebase afterwards
+      await storage.deleteFirmwareById(req.params.id);
+      //Finally, delete it from the file storage
+      await deleteFile(firmwareStoragePath);
+      res.status(200).json({message:"Firmware deleted successfully."})
+    } catch (error) {
+      console.error("Delete firmware error:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  })
 
   // Device routes
   app.get("/api/devices", authenticateToken, async (req, res) => {

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery,useMutation,useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,11 +7,17 @@ import { Badge } from "@/components/ui/badge";
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
 } from "@/components/ui/table";
-import { Code, Download, RotateCcw, Eye, Upload } from "lucide-react";
+import { Code, Download, RotateCcw, Eye, Upload,Trash2 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function FirmwareLibrary() {
   const { token } = useAuth();
+  const queryClient = useQueryClient();
+  const [start,setStart] = useState<number | null>(0);
+  const [end,setEnd] = useState<number | null>(4);
+  const {toast} = useToast();
 
   const fetchFirmwares  = async () => {
     const res = await fetch("/api/firmware", {
@@ -23,11 +29,42 @@ export default function FirmwareLibrary() {
     return res.json();
   }
 
+  const deleteFirmware  = async (firmwareId:string) => {
+    console.log("Where are u?");
+    const res = await fetch(`/api/firmware/delete/${firmwareId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      method:'DELETE'
+    });
+    if (!res.ok) throw new Error("Failed to delete firmware");
+    return res.json();
+  }
+
   const { data: firmware, isLoading } = useQuery({
     queryKey: ["/api/firmware"],
     enabled: !!token,
     queryFn: fetchFirmwares
   });
+
+  const deleteFirmwareById = useMutation({
+    mutationFn:deleteFirmware,
+    onSuccess: () => {
+      toast({
+        title: "Upload successful",
+        description: "Firmware has been deleted successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/firmware"] });
+      
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Delete failed",
+        description: error.message || "Failed to delete firmware",
+        variant: "destructive",
+      });
+    },
+  })
 
   const handleDownload = async (firmwareId: string, filename: string) => {
     try {
@@ -55,8 +92,6 @@ export default function FirmwareLibrary() {
       console.error('Download error:', error);
     }
   };
-
-  
 
   if (isLoading) {
     return (
@@ -162,8 +197,12 @@ export default function FirmwareLibrary() {
                           >
                             <Download className="w-4 h-4" />
                           </Button>
-                          <Button size="sm" variant="outline">
-                            <RotateCcw className="w-4 h-4" />
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={()=>deleteFirmwareById.mutate(fw.id)}
+                          >
+                            <Trash2 className="w-4 h-4" />
                           </Button>
                           <Button size="sm" variant="outline">
                             <Eye className="w-4 h-4" />

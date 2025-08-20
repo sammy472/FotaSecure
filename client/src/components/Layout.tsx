@@ -19,13 +19,13 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen flex bg-background">
-      <Sidebar 
+      {<Sidebar 
         isOpen={sidebarOpen} 
         onClose={() => setSidebarOpen(false)} 
         isMobile={isMobile} 
-      />
+      />}
       
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 w-full flex flex-col overflow-hidden">
         <Header onMenuClick={() => setSidebarOpen(true)} />
         <div className="flex-1 overflow-y-auto p-6">
           {children}

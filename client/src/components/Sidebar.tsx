@@ -2,9 +2,9 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useLocation } from "wouter";
 import { 
-  Cpu, Upload, Code, Microchip, RotateCcw, 
-  History, Users, LogOut 
+  Cpu, Upload, Code, Microchip, RotateCcw, History, Users, LogOut 
 } from "lucide-react";
+import { useState } from "react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -15,6 +15,7 @@ interface SidebarProps {
 export function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
   const { user, logout } = useAuth();
   const [location] = useLocation();
+  const [collapseSideBar,setCollapseSideBar] = useState<boolean | null>(false);
 
   const navigation = [
     { name: "Dashboard", href: "/", icon: Cpu, current: location === "/" },
@@ -55,10 +56,10 @@ export function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
         {/* Logo */}
         <div className="flex items-center h-16 px-6 border-b border-border/50">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center shadow-lg cursor-pointer">
               <Cpu className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/90 bg-clip-text text-transparent">
               SecureFOTA
             </span>
           </div>

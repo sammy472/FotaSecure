@@ -26,6 +26,7 @@ export interface IStorage {
   getFirmwareById(id: string): Promise<Firmware | undefined>;
   createFirmware(firmware: InsertFirmware & { uploaderId: string; storagePath: string; sha256: string; hmac: string }): Promise<Firmware>;
   getFirmwareByDeviceGroup(deviceGroup: string): Promise<Firmware[]>;
+  deleteFirmwareById(firmwareId:string | number):Promise<void>;
   
   // Update Jobs
   getUpdateJobs(): Promise<UpdateJob[]>;
@@ -129,6 +130,14 @@ export class DatabaseStorage implements IStorage {
       .where(eq(firmware.targetDeviceGroup, deviceGroup))
       .orderBy(desc(firmware.createdAt));
   }
+
+  async deleteFirmwareById(firmwareId:string | number):Promise<void>{
+    await db
+    .delete(firmware)
+    .where(eq(firmware.id, firmwareId as string));
+  };
+   
+
 
   async getUpdateJobs(): Promise<UpdateJob[]> {
     return await db.select().from(updateJobs).orderBy(desc(updateJobs.createdAt));

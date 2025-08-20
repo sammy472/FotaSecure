@@ -12,7 +12,7 @@ export function Header({ onMenuClick }: HeaderProps) {
   const { user } = useAuth();
 
   return (
-    <header className="bg-background/95 backdrop-blur-sm border-b border-border/50 px-6 py-4 sticky top-0 z-40">
+    <header className="bg-background/95 backdrop-blur-sm border-b border-border/50 px-6 py-4 sticky top-0 z-40 w-full">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <button

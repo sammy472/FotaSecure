@@ -50,10 +50,9 @@ export default function FirmwareUpload() {
         const error = await response.json();
         throw new Error(error.message || "Upload failed");
       }
-
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: ({data}) => {
       toast({
         title: "Upload successful",
         description: "Firmware has been uploaded and encrypted successfully",
@@ -70,6 +69,7 @@ export default function FirmwareUpload() {
         targetDeviceGroup: "",
         transportType: "mqtt",
       });
+      console.log(data)
     },
     onError: (error: any) => {
       toast({
